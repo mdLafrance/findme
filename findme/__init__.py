@@ -1,0 +1,1 @@
+FINDME_APPNAME = "findme"
