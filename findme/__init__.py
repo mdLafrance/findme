@@ -1,1 +1,0 @@
-FINDME_APPNAME = "findme"

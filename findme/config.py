@@ -9,8 +9,10 @@ from pydantic import BaseModel, field_validator
 
 from appdirs import user_config_dir
 
-from findme import FINDME_APPNAME
-from findme.exceptions import DuplicateAliasError
+from findme.exceptions import DuplicateAliasError, IllegalPatternError
+
+
+FINDME_APPNAME = "findme"
 
 
 class Pattern(BaseModel):
@@ -25,11 +27,16 @@ class Pattern(BaseModel):
     directories_only: bool = False
     """Whether or not this pattern should only match directories."""
 
-    @field_validator
-    @classmethod
+    @field_validator("pattern")
     def validate_pattern(cls, pattern: str) -> str:
         """Validates if the given pattern can be compiled to a regex expression."""
-        re.compile(pattern)
+        try:
+            re.compile(pattern)
+        except re.error as e:
+            raise IllegalPatternError(
+                f"Given pattern couldn't be compiled to a valid regex: {pattern}"
+            ) from e
+
         return pattern
 
 
@@ -38,7 +45,7 @@ def load_config(config_path: str = None) -> List[Pattern]:
     patterns: List[Pattern] = []
 
     with open(config_path or _get_default_config_location(), "r") as f:
-        for alias, pattern_data in json.load(f):
+        for alias, pattern_data in json.load(f).items():
             patterns.append(Pattern(**pattern_data))
 
     return patterns
@@ -54,7 +61,7 @@ def save_config(patterns: List[Pattern], config_path: str = None):
                 f"Alias {pattern.alias} already present in config."
             )
 
-        patterns_dict[pattern.alias] = pattern.dict()
+        patterns_dict[pattern.alias] = pattern.model_dump()
 
     with open(config_path or _get_default_config_location(), "w") as f:
         f.write(json.dumps(patterns_dict))

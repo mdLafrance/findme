@@ -3,4 +3,8 @@ class NoSuchAliasError(Exception):
 
 
 class DuplicateAliasError(Exception):
-    """Exception riased when a pattern already exists with the same alias."""
+    """Exception raised when a pattern already exists with the same alias."""
+
+
+class IllegalPatternError(Exception):
+    """Exception raised when a pattern is not valid."""
