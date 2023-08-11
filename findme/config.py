@@ -1,4 +1,5 @@
 """Module to manage the findme config file."""
+import os
 import re
 import json
 
@@ -41,10 +42,24 @@ class Pattern(BaseModel):
 
 
 def load_config(config_path: str = None) -> List[Pattern]:
-    """Parse the user config for `Pattern`s."""
+    """Parse the user config for `Patterns`.
+    
+    If `config_path` is not provided, the config will be loaded from the 
+    location defined by `get_default_config_location`. 
+    Generally, this is a standard location in the system's user config directory.
+
+    Args:
+        config_path (Optional): Load the config from a specific path instead of the default location.
+
+    Returns:
+        A list of `Pattern` objects found in the config.
+
+    Raises:
+        `FileNotFoundError` if the config cannot be located.
+    """
     patterns: List[Pattern] = []
 
-    with open(config_path or _get_default_config_location(), "r") as f:
+    with open(config_path or get_default_config_location(), "r") as f:
         for alias, pattern_data in json.load(f).items():
             patterns.append(Pattern(**pattern_data))
 
@@ -52,7 +67,15 @@ def load_config(config_path: str = None) -> List[Pattern]:
 
 
 def save_config(patterns: List[Pattern], config_path: str = None):
-    """Write the given `Pattern`s to the user config file."""
+    """Write the given `Pattern`s to the user config file.
+    
+    Args:
+        patterns: A list of `Patterns` to write to the config.
+        config_path (Optional): The location of the config to write to. Uses the default location if not provided.
+
+    Raises:
+        `DuplicateAliasError` if the given patterns define the same alias more than once.
+    """
     patterns_dict = {}
 
     for pattern in patterns:
@@ -63,10 +86,10 @@ def save_config(patterns: List[Pattern], config_path: str = None):
 
         patterns_dict[pattern.alias] = pattern.model_dump()
 
-    with open(config_path or _get_default_config_location(), "w") as f:
+    with open(config_path or get_default_config_location(), "w") as f:
         f.write(json.dumps(patterns_dict))
 
 
-def _get_default_config_location() -> str:
+def get_default_config_location() -> str:
     """Get the appropriate default location for the user config file based on platform."""
     return str(Path(user_config_dir(FINDME_APPNAME)) / "config.json")

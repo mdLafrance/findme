@@ -6,8 +6,8 @@ from unittest import mock
 
 from pyfakefs.fake_filesystem_unittest import TestCase
 
-from findme.config import Pattern, load_config, save_config
-from findme.exceptions import IllegalPatternError
+from findme.config import Pattern, load_config, save_config, get_default_config_location
+from findme.exceptions import IllegalPatternError, DuplicateAliasError
 
 from .utils import (
     get_test_config_location,
@@ -52,16 +52,22 @@ class ConfigTestCase(TestCase):
         )
 
     @mock.patch(
-        "findme.config._get_default_config_location", new=get_test_config_location
+        "findme.config.get_default_config_location", new=get_test_config_location
     )
     def test_load_config(self):
-        self.assertEqual(get_test_patterns(), load_config())
+        # Test that dummy values are correctly reconstructed
+        self.assertEqual(load_config(), get_test_patterns())
 
-    def tests_save_config(self):
+        # Check missing config raises an error
+        with self.assertRaises(FileNotFoundError):
+            load_config(config_path="not_a_directory")
+
+    def test_save_config(self):
         temp_config_location = "temp_config.json"
 
         patterns = get_test_patterns()
 
+        # Check we can successfully create a config
         self.assertFalse(os.path.isfile(temp_config_location))
 
         save_config(patterns, config_path=temp_config_location)
@@ -69,3 +75,16 @@ class ConfigTestCase(TestCase):
         self.assertTrue(os.path.isfile(temp_config_location))
 
         self.assertEqual(patterns, load_config(temp_config_location))
+
+        
+    def test_save_config_with_problems(self):
+        patterns = get_test_patterns()
+
+        # Check colliding patterns are rejected
+        self.assertFalse(os.path.isfile(get_default_config_location()))
+
+        with self.assertRaises(DuplicateAliasError):
+            save_config(patterns * 2)
+
+        # Check no config was created if problems were detected
+        self.assertFalse(os.path.isfile(get_default_config_location()))

@@ -10,9 +10,10 @@ class Commands(str, Enum):
     ADD = "add"
     REMOVE = "remove"
     LIST = "list"
-    WHERE = "where"
+    CONFIG = "config"
 
     def __contains__(self, __key: str) -> bool:
+        """Utility support for `in` keyword."""
         return __key in self.__members__.values()
 
 
