@@ -33,6 +33,10 @@ class SearchTestCase(TestCase):
         for f in TEST_FILES:
             self.fs.create_file(str(Path(f)))  # Normalize to operating system
 
+    def test_search_missing_directory(self):
+        with self.assertRaises(FileNotFoundError):
+            list(find("asdf", "asdf"))
+
     def test_find_files(self):
         ### Test a couple file extensions
         # Python file
