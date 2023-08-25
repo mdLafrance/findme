@@ -86,7 +86,12 @@ def save_config(patterns: List[Pattern], config_path: str = None):
 
         patterns_dict[pattern.alias] = pattern.model_dump()
 
-    with open(config_path or get_default_config_location(), "w") as f:
+    config_path: Path = Path(config_path or get_default_config_location())
+
+    if not config_path.parent.is_dir():
+        config_path.parent.mkdir(parents=True)
+
+    with open(config_path, "w") as f:
         f.write(json.dumps(patterns_dict))
 
 
