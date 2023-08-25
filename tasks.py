@@ -13,13 +13,6 @@ def _print_title(*m):
 
 
 @task
-def init(c):
-    _print_title("Initializing poetry")
-    c.run("poetry shell")
-    c.run("poetry install")
-
-
-@task
 def test(c):
     _print_title("Running tests and generating coverage report")
     coverage_dir = Path(REPORTS_DIR) / "coverage"
