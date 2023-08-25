@@ -56,7 +56,7 @@ jobs:
 
             - name: Create coverage json
               run: |
-                coverage json
+                poetry run coverage json
 
             - name: Update Coverage Badge
               # GitHub actions: default branch variable
