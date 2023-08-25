@@ -19,16 +19,14 @@ jobs:
               run: |
                 python -m pip install --upgrade pip
                 pip install poetry
-                pip install invoke
 
             - name: Setup poetry
               run: |
-                poetry shell
                 poetry install
 
             - name: Run black
               run: |
-                invoke lint
+                poetry invoke lint
 
             
     test:
@@ -47,16 +45,14 @@ jobs:
               run: |
                 python -m pip install --upgrade pip
                 pip install poetry
-                pip install invoke
 
             - name: Setup poetry
               run: |
-                poetry shell
                 poetry install
 
             - name: Run tests
               run: |
-                invoke test
+                poetry invoke invoke test
 
             - name: Update Coverage Badge
               # GitHub actions: default branch variable
