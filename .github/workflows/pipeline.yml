@@ -52,7 +52,7 @@ jobs:
 
             - name: Run tests
               run: |
-                poetry run coverage run pytest tests/
+                poetry run coverage run -m pytest tests/
 
             - name: Create coverage json
               run: |
