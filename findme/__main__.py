@@ -10,46 +10,54 @@ from enum import Enum
 from rich import print as rprint
 from rich.table import Table
 
+import rich_argparse
+
 from findme.config import Pattern, load_config, save_config
 from findme.search import find_pattern
 from findme.exceptions import DuplicateAliasError
 
 
-DESCRIPTION_STRING = """
-findme helps you find files quickly
+_FINDME_RICH_FORMAT = "[blue bold]findme[/]"
 
-Manage regex patterns to look for specific kinds of files.
+
+DESCRIPTION_STRING = f"""
+[underline]{_FINDME_RICH_FORMAT}[/] manages regex patterns so you can find specific kinds of files quickly.
 
 Use the following commands to manage patterns:
 
-    [bold]--add [dim]<pattern name> <pattern>[/]
-    [bold]--remove [dim]<pattern name>[/]
-    [bold]--list[/]
-
-Call [dim]--help[/] with any of these commands to see additional help information for each.
-    
-    [bold]findme [dim]<command> --help[/] 
-
+    {_FINDME_RICH_FORMAT} [bold]--add [dim]<pattern name>[/] [bold]--pattern [dim]<pattern>[/]
+    {_FINDME_RICH_FORMAT} [bold]--remove [dim]<pattern name>[/]
+    {_FINDME_RICH_FORMAT} [bold]--list[/]
 
 Once you have patterns defined, call
 
-    [bold]findme [dim]<pattern>[/]
+    {_FINDME_RICH_FORMAT} [dim]<pattern>[/]
 
 To quickly locate any matching resources on disk.
+See the end of this message for additional examples.
+"""
+
+EPILOG_STRING = """
+Examples:
+
+    findme --add py --pattern "\.py$"                          Add a pattern to locate all python files on disk.
+    findme --add maya --pattern "\.m\[ab]$"                     Add a pattern to locate all autodesk maya files (.ma, .mb)
+    findme --add templates --pattern "\.(inl|\[ht]cc|\[ht]pp)$"  Add a pattern to locate all c++ template files
+    findme --add activate --pattern "activate$" --files-only   Add a pattern to locate all files named "activate"
+
+    findme templates ./project_dir/include                     Search for all c++ template files inside the given directory.
+
+    findme maya | wc -l | ...                                  Search for maya files and perform other operations with the filepaths.
+
+    findme --remove py                                         Remove the alias we previously created for python files.
+
+    findme --list                                              List all aliases that are assigned.
 """
 
 
-class Commands(str, Enum):
-    """List of expected cli commands."""
-
-    ADD = "add"
-    REMOVE = "remove"
-    LIST = "list"
-    CONFIG = "config"
-
-
+# TODO: Should be ported to a more streamlined library like Typer. Just want to get something initially working.
 def parse_args():
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(description=DESCRIPTION_STRING, epilog=EPILOG_STRING, formatter_class=rich_argparse.RawDescriptionRichHelpFormatter)
 
     parser.add_argument("pattern_name", nargs="?", help="Pattern(s) to search for.")
 
@@ -93,6 +101,7 @@ def app():
 
 
 def search_for_pattern(alias: str, search_root: str):
+    """Search on disk for the given `alias`."""
     patterns = _try_load_config()
 
     pattern_to_search_for = next((p for p in patterns if p.alias == alias), None)
@@ -108,6 +117,7 @@ def search_for_pattern(alias: str, search_root: str):
 
 
 def list_patterns():
+    """List the current patterns defined in the config file."""
     patterns = _try_load_config()
 
     if not patterns:
@@ -119,6 +129,7 @@ def list_patterns():
 
 
 def add_pattern(alias: str, pattern: str, files_only: bool, directories_only: bool):
+    """Attempt to add the given `alias` to the config file with the given parameters."""
     patterns = _try_load_config()
 
     new_pattern = Pattern(alias=alias, pattern=pattern, files_only=files_only, directories_only=directories_only)
@@ -138,6 +149,7 @@ def add_pattern(alias: str, pattern: str, files_only: bool, directories_only: bo
 
 
 def remove_pattern(alias: str):
+    """Attempt to remove the given `alias` from the config file."""
     patterns = _try_load_config()
 
     pattern_to_remove = next((p for p in patterns if p.alias == alias), None)
@@ -152,6 +164,7 @@ def remove_pattern(alias: str):
 
 
 def _print_patterns_in_table(patterns: List[Pattern]):
+    """Print a rich table displaying the contents of `patterns`."""
     table = Table("Pattern name", "Pattern", "Files only?", "Directories only?")
 
     for pattern in patterns:
@@ -161,6 +174,7 @@ def _print_patterns_in_table(patterns: List[Pattern]):
 
 
 def _try_load_config():
+    """Try and load the config file from disk. Return no patterns if the config cannot be found."""
     try:
         return load_config()
     except FileNotFoundError:
@@ -168,13 +182,14 @@ def _try_load_config():
 
 
 def _color_string(m: Any) -> str:
+    """Return a rich formatted string for `m`, colored green or red based on the truthiness of `m`."""
     return f"[{'green' if m else 'red'}]{str(m)}[/]"
 
 
 def _print_error(message: str):
+    """Format a small error string."""
     rprint(f"[bold red]ERROR: [/]{message}")
      
-
 
 if __name__ == "__main__":
     app()
