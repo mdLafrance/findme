@@ -4,27 +4,24 @@ from shutil import rmtree
 
 from invoke import task
 
-from rich import print
-from rich.rule import Rule
-
 
 REPORTS_DIR = "./reports"
 
 
-def _print_rule(*m):
-    print(Rule(*m))
+def _print_title(*m):
+    print(" >", *m)
 
 
 @task
 def init(c):
-    _print_rule("Initializing poetry")
+    _print_title("Initializing poetry")
     c.run("poetry shell")
     c.run("poetry install")
 
 
 @task
 def test(c):
-    _print_rule("Running tests and generating coverage report")
+    _print_title("Running tests and generating coverage report")
     coverage_dir = Path(REPORTS_DIR) / "coverage"
     coverage_file = coverage_dir / ".coverage"
     coverage_xml = coverage_dir / "coverage.xml"
@@ -36,7 +33,7 @@ def test(c):
 
 @task
 def lint(c):
-    _print_rule("Running black")
+    _print_title("Running black")
     c.run("poetry run black ./src")
 
 
@@ -54,7 +51,7 @@ def prep(c):
 
 @task
 def clean(c):
-    _print_rule("Cleaning reports and build artifacts")
+    _print_title("Cleaning reports and build artifacts")
     
     # build
     build_dir = Path("./dist")
