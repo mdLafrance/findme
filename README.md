@@ -1,5 +1,6 @@
-# findme 
+# findme ![example workflow](https://github.com/mdLafrance/findme/actions/workflows/pipeline.yml/badge.svg)
 Lightweight python based shell utility for finding files on disk using regex.
+
 
 ## Why?
 I found myself having to comb through a filesystem, looking for very specific types of files constantly.  
