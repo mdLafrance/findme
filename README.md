@@ -1,4 +1,4 @@
-# findme [![Pipeline](https://github.com/mdLafrance/findme/actions/workflows/pipeline.yml/badge.svg?branch=main)](https://github.com/mdLafrance/findme/actions/workflows/pipeline.yml) [![cov](https://we-cli.github.io/mdLafrance/badges/coverage.svg)](https://github.com/we-cli/mdLafrance/actions)
+# findme [![Pipeline](https://github.com/mdLafrance/findme/actions/workflows/pipeline.yml/badge.svg?branch=main)](https://github.com/mdLafrance/findme/actions/workflows/pipeline.yml) [![Coverage](./reports/coverage/coverage-badge.svg)](./reports/coverage/coverage-badge.svg)
 Lightweight python based shell utility for finding files on disk using regex.
 
 
