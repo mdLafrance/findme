@@ -26,7 +26,7 @@ jobs:
 
             - name: Run black
               run: |
-                poetry invoke lint
+                poetry run invoke lint
 
             
     test:
@@ -52,7 +52,7 @@ jobs:
 
             - name: Run tests
               run: |
-                poetry invoke invoke test
+                poetry run invoke test
 
             - name: Update Coverage Badge
               # GitHub actions: default branch variable
