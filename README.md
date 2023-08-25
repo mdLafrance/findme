@@ -1,4 +1,4 @@
-# findme ![example workflow](https://github.com/mdLafrance/findme/actions/workflows/pipeline.yml/badge.svg)
+# findme [![Pipeline](https://github.com/mdLafrance/findme/actions/workflows/pipeline.yml/badge.svg?branch=main)](https://github.com/mdLafrance/findme/actions/workflows/pipeline.yml)
 Lightweight python based shell utility for finding files on disk using regex.
 
 
