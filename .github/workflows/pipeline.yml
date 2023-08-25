@@ -52,5 +52,9 @@ jobs:
 
             - name: Run tests
               run: |
-                poetry run pytest tests/
+                poetry run coverage run pytest tests/
+
+            - name: Create coverage json
+              run: |
+                if [ -f ".coverage" ] then coverage json; fi
             
