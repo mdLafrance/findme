@@ -24,9 +24,9 @@ jobs:
               run: |
                 poetry install
 
-            # - name: Run black
-            #   run: |
-            #     poetry run black ./findme --check
+            - name: Run black
+              run: |
+                poetry run black ./**/*.py --check
 
             - name: Run tests
               run: |
