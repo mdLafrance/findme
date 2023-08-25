@@ -43,9 +43,9 @@ class Pattern(BaseModel):
 
 def load_config(config_path: str = None) -> List[Pattern]:
     """Parse the user config for `Patterns`.
-    
-    If `config_path` is not provided, the config will be loaded from the 
-    location defined by `get_default_config_location`. 
+
+    If `config_path` is not provided, the config will be loaded from the
+    location defined by `get_default_config_location`.
     Generally, this is a standard location in the system's user config directory.
 
     Args:
@@ -68,7 +68,7 @@ def load_config(config_path: str = None) -> List[Pattern]:
 
 def save_config(patterns: List[Pattern], config_path: str = None):
     """Write the given `Pattern`s to the user config file.
-    
+
     Args:
         patterns: A list of `Patterns` to write to the config.
         config_path (Optional): The location of the config to write to. Uses the default location if not provided.

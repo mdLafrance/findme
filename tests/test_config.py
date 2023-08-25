@@ -76,7 +76,6 @@ class ConfigTestCase(TestCase):
 
         self.assertEqual(patterns, load_config(temp_config_location))
 
-        
     def test_save_config_with_problems(self):
         patterns = get_test_patterns()
 

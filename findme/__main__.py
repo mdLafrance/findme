@@ -57,25 +57,53 @@ Examples:
 
 # TODO: Should be ported to a more streamlined library like Typer. Just want to get something initially working.
 def parse_args():
-    parser = argparse.ArgumentParser(description=DESCRIPTION_STRING, epilog=EPILOG_STRING, formatter_class=rich_argparse.RawDescriptionRichHelpFormatter)
+    parser = argparse.ArgumentParser(
+        description=DESCRIPTION_STRING,
+        epilog=EPILOG_STRING,
+        formatter_class=rich_argparse.RawDescriptionRichHelpFormatter,
+    )
 
     parser.add_argument("pattern_name", nargs="?", help="Pattern(s) to search for.")
 
-    parser.add_argument("search_root", nargs="?", help="Directory to search in (defaults to current directory.)")
+    parser.add_argument(
+        "search_root",
+        nargs="?",
+        help="Directory to search in (defaults to current directory.)",
+    )
 
-    parser.add_argument("-a", "--add", help="Alias for pattern to add. Must be used in conjunction with --pattern.")
-    parser.add_argument("-p", "--pattern", help="Regex pattern to be added for the given alias.")
-    parser.add_argument("-f", "--files-only", action="store_true", help="Only match this pattern against files.")
-    parser.add_argument("-d", "--directories-only", action="store_true", help="Only match this pattern against directories.")
+    parser.add_argument(
+        "-a",
+        "--add",
+        help="Alias for pattern to add. Must be used in conjunction with --pattern.",
+    )
+    parser.add_argument(
+        "-p", "--pattern", help="Regex pattern to be added for the given alias."
+    )
+    parser.add_argument(
+        "-f",
+        "--files-only",
+        action="store_true",
+        help="Only match this pattern against files.",
+    )
+    parser.add_argument(
+        "-d",
+        "--directories-only",
+        action="store_true",
+        help="Only match this pattern against directories.",
+    )
 
-    parser.add_argument("-r", "--remove", help="Remove the given alias from the config.")
+    parser.add_argument(
+        "-r", "--remove", help="Remove the given alias from the config."
+    )
 
-    parser.add_argument("-l", "--list", action="store_true", help="List current patterns.")
+    parser.add_argument(
+        "-l", "--list", action="store_true", help="List current patterns."
+    )
 
     args = parser.parse_args()
 
     if args.add and not args.pattern:
-            parser.error("Must use --add in conjunction with --pattern.")
+        parser.error("Must use --add in conjunction with --pattern.")
 
     return args
 
@@ -84,7 +112,7 @@ def app():
     ### Parse cli args
     args = parse_args()
 
-    ### --list 
+    ### --list
     if args.list:
         list_patterns()
 
@@ -132,7 +160,12 @@ def add_pattern(alias: str, pattern: str, files_only: bool, directories_only: bo
     """Attempt to add the given `alias` to the config file with the given parameters."""
     patterns = _try_load_config()
 
-    new_pattern = Pattern(alias=alias, pattern=pattern, files_only=files_only, directories_only=directories_only)
+    new_pattern = Pattern(
+        alias=alias,
+        pattern=pattern,
+        files_only=files_only,
+        directories_only=directories_only,
+    )
 
     patterns.append(new_pattern)
 
@@ -168,7 +201,12 @@ def _print_patterns_in_table(patterns: List[Pattern]):
     table = Table("Pattern name", "Pattern", "Files only?", "Directories only?")
 
     for pattern in patterns:
-        table.add_row(pattern.alias, pattern.pattern, _color_string(pattern.files_only), _color_string(pattern.directories_only))
+        table.add_row(
+            pattern.alias,
+            pattern.pattern,
+            _color_string(pattern.files_only),
+            _color_string(pattern.directories_only),
+        )
 
     rprint(table)
 
@@ -189,7 +227,7 @@ def _color_string(m: Any) -> str:
 def _print_error(message: str):
     """Format a small error string."""
     rprint(f"[bold red]ERROR: [/]{message}")
-     
+
 
 if __name__ == "__main__":
     app()
