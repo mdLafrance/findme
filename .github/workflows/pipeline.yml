@@ -19,10 +19,11 @@ jobs:
               run: |
                 python -m pip install --upgrade pip
                 pip install poetry
+                pip install invoke
 
             - name: Setup poetry
               run: |
-                poetry install
+                invoke init
 
             - name: Run black
               run: |
@@ -45,7 +46,7 @@ jobs:
               run: |
                 python -m pip install --upgrade pip
                 pip install poetry
-                pip install pyinvoke
+                pip install invoke
 
             - name: Setup poetry
               run: |
