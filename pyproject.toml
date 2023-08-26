@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "findme"
+name = "find-me"
 version = "0.1.0"
 description = ""
 authors = ["mdLafrance <maxlafrance97@gmail.com>"]
