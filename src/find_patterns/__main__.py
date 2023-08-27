@@ -1,4 +1,7 @@
-"""CLI entrypoint for findme."""
+"""CLI entrypoint for findme.
+
+See the scripts section of the poetry documentation for more on how this entrypoint is installed via pip.
+"""
 import os
 import sys
 import argparse
@@ -12,9 +15,9 @@ from rich.table import Table
 
 import rich_argparse
 
-from findme.config import Pattern, load_config, save_config
-from findme.search import find_pattern
-from findme.exceptions import DuplicateAliasError
+from find_patterns.config import Pattern, load_config, save_config
+from find_patterns.search import find_pattern
+from find_patterns.exceptions import DuplicateAliasError
 
 
 _FINDME_RICH_FORMAT = "[blue bold]findme[/]"

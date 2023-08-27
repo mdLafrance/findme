@@ -6,8 +6,8 @@ from unittest import mock
 
 from pyfakefs.fake_filesystem_unittest import TestCase
 
-from findme.config import Pattern, load_config, save_config, get_default_config_location
-from findme.exceptions import IllegalPatternError, DuplicateAliasError
+from find_patterns.config import Pattern, load_config, save_config, get_default_config_location
+from find_patterns.exceptions import IllegalPatternError, DuplicateAliasError
 
 from .utils import (
     get_test_config_location,
@@ -52,7 +52,7 @@ class ConfigTestCase(TestCase):
         )
 
     @mock.patch(
-        "findme.config.get_default_config_location", new=get_test_config_location
+        "find_patterns.config.get_default_config_location", new=get_test_config_location
     )
     def test_load_config(self):
         # Test that dummy values are correctly reconstructed

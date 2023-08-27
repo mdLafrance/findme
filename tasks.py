@@ -62,6 +62,3 @@ def clean(c):
     poetry_lock = Path("./poetry.lock")
     poetry_lock.unlink(missing_ok=True)
     print(f"Cleaning lock file {poetry_lock}")
-
-    # Clean poetry envs
-    c.run("poetry env remove --all")

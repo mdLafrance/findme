@@ -10,7 +10,7 @@ from pydantic import BaseModel, field_validator
 
 from appdirs import user_config_dir
 
-from findme.exceptions import DuplicateAliasError, IllegalPatternError
+from find_patterns.exceptions import DuplicateAliasError, IllegalPatternError
 
 
 FINDME_APPNAME = "findme"
