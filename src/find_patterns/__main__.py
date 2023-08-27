@@ -108,6 +108,10 @@ def parse_args():
     if args.add and not args.pattern:
         parser.error("Must use --add in conjunction with --pattern.")
 
+    if len(sys.argv) == 1:
+        parser.print_help()
+        sys.exit(0)
+
     return args
 
 
