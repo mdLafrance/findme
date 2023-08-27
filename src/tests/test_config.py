@@ -52,7 +52,7 @@ class ConfigTestCase(TestCase):
         )
 
     @mock.patch(
-        "findme.config.get_default_config_location", new=get_test_config_location
+        "find_patterns.config.get_default_config_location", new=get_test_config_location
     )
     def test_load_config(self):
         # Test that dummy values are correctly reconstructed
