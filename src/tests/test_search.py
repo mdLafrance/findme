@@ -8,8 +8,8 @@ from unittest import mock
 
 from pyfakefs.fake_filesystem_unittest import TestCase
 
-from findme.config import Pattern
-from findme.search import find_pattern, find
+from find_patterns.config import Pattern
+from find_patterns.search import find_pattern, find
 
 
 TEST_FILES = [

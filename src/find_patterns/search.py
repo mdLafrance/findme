@@ -53,6 +53,6 @@ def find(
         to_search += files if not directories_only else []
 
         ### Filter items by regex match
-        for item in to_search:
+        for item in (os.path.join(root, item) for item in to_search):
             if compiled_pattern.search(item):
                 yield item

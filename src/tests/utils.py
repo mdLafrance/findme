@@ -3,7 +3,7 @@ import json
 
 from typing import List
 
-from findme.config import Pattern
+from find_patterns.config import Pattern
 
 
 def get_test_patterns() -> List[Pattern]:
