@@ -15,7 +15,7 @@ from rich.table import Table
 
 import rich_argparse
 
-from find_patterns.config import Pattern, load_config, save_config
+from find_patterns.config import Pattern, load_config, save_config, get_default_config_location
 from find_patterns.search import find_pattern
 from find_patterns.exceptions import DuplicateAliasError
 
@@ -103,10 +103,18 @@ def parse_args():
         "-l", "--list", action="store_true", help="List current patterns."
     )
 
+    parser.add_argument(
+        "-c", "--config", action="store_true", help="Display location of config file."
+    )
+
     args = parser.parse_args()
 
     if args.add and not args.pattern:
         parser.error("Must use --add in conjunction with --pattern.")
+
+    if len(sys.argv) == 1:
+        parser.print_help()
+        sys.exit(0)
 
     return args
 
@@ -126,6 +134,11 @@ def app():
     ### --remvoe
     if args.remove:
         remove_pattern(args.remove)
+
+    ### --config
+    if args.config:
+        print("Config located at", get_default_config_location())
+        sys.exit(0)
 
     ### Search for pattern
     search_for_pattern(args.pattern_name, args.search_root)
