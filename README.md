@@ -4,9 +4,9 @@ Lightweight python based shell utility for finding files on disk using regex.
 
 ## Why?
 The bash `find` command has a `--regex` option, which works great for one-off searches.  
-However, I didn't have a good way to remember the dozen or so patterns I was searching for daily, and *quickly* compose them into a `find --regex` call.  
+However, I didn't have a good way to remember the dozen or so patterns I was searching for daily, and then *quickly* compose them into a `find --regex` call.  
 
-This tool is meant to stramline the process of remembering regex patterns, so you can search for them faster.
+This tool is meant to streamline the process of remembering regex patterns, so you can search for them faster.
 
 
 ## Installation
