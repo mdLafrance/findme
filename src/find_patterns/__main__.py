@@ -15,7 +15,12 @@ from rich.table import Table
 
 import rich_argparse
 
-from find_patterns.config import Pattern, load_config, save_config, get_default_config_location
+from find_patterns.config import (
+    Pattern,
+    load_config,
+    save_config,
+    get_default_config_location,
+)
 from find_patterns.search import find_pattern
 from find_patterns.exceptions import DuplicateAliasError
 
