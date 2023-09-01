@@ -159,7 +159,7 @@ def search_for_pattern(alias: str, search_root: str):
         _print_error(f"Pattern {alias} not found")
         sys.exit(1)
 
-    for match in find_pattern(search_root or os.getcwd(), pattern_to_search_for):
+    for match in find_pattern(os.path.abspath(search_root or os.getcwd()), pattern_to_search_for):
         print(match)
 
     sys.exit(0)
