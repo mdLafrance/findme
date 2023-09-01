@@ -6,8 +6,6 @@ import sys
 from pathlib import Path
 from typing import Generator, List
 
-from pydantic import BaseModel, field_validator
-
 from find_patterns.config import Pattern
 
 
