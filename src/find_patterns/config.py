@@ -6,7 +6,12 @@ import json
 from pathlib import Path
 from typing import List
 
-from pydantic import BaseModel, field_validator
+from pydantic import BaseModel
+
+try:
+    from pydantic import field_validator
+except ImportError:
+    from pydantic import validator as field_validator
 
 from appdirs import user_config_dir
 
