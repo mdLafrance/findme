@@ -6,7 +6,12 @@ from unittest import mock
 
 from pyfakefs.fake_filesystem_unittest import TestCase
 
-from find_patterns.config import Pattern, load_config, save_config, get_default_config_location
+from find_patterns.config import (
+    Pattern,
+    load_config,
+    save_config,
+    get_default_config_location,
+)
 from find_patterns.exceptions import IllegalPatternError, DuplicateAliasError
 
 from .utils import (
